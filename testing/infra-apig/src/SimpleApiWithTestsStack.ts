@@ -25,9 +25,8 @@ export class SimpleApiWithTestsStack extends Stack {
         TABLE_NAME: table.tableName,
       },
     });
-    //table.grantReadWriteData(backend);
+    table.grantReadWriteData(backend);
 
-    // @ts-ignore
     const api = new LambdaRestApi(construct, 'SomeApi', {
       handler: backend,
     });
