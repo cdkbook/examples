@@ -9,14 +9,14 @@ export const handler = async (event: CloudFormationCustomResourceEvent, context:
 
   if (event.RequestType === 'Delete') {
     // let's do nothing.
-    return response.send(event, context, response.SUCCESS, {});
+    return response.send(event, response.SUCCESS, {});
   }
   try {
 
     const client = new SFNClient({});
-    const physicalResourceId = context.logStreamName;
+    const PhysicalResourceId = context.logStreamName;
     const { StackId, RequestId, LogicalResourceId, ResponseURL } = event;
-    const customResource = { physicalResourceId, StackId, RequestId, LogicalResourceId, ResponseURL };
+    const customResource = { PhysicalResourceId, StackId, RequestId, LogicalResourceId, ResponseURL };
     console.log('Staring test suite with input: ', customResource);
     await client.send(new StartExecutionCommand({
       stateMachineArn,

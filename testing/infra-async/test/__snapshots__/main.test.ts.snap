@@ -1,0 +1,881 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Resources": Object {
+    "IntakeTopicB1C5B12C": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "ProcessingQueue6DC600C3": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ProcessingQueuePolicyDDFFDBBA": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sqs:SendMessage",
+              "Condition": Object {
+                "ArnEquals": Object {
+                  "aws:SourceArn": Object {
+                    "Ref": "IntakeTopicB1C5B12C",
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "sns.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ProcessingQueue6DC600C3",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": Array [
+          Object {
+            "Ref": "ProcessingQueue6DC600C3",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "ProcessingQueuetestIntakeTopicA3B802C033FAABFC": Object {
+      "Properties": Object {
+        "Endpoint": Object {
+          "Fn::GetAtt": Array [
+            "ProcessingQueue6DC600C3",
+            "Arn",
+          ],
+        },
+        "Protocol": "sqs",
+        "TopicArn": Object {
+          "Ref": "IntakeTopicB1C5B12C",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "QueueHandler49A28051": Object {
+      "DependsOn": Array [
+        "QueueHandlerServiceRoleDefaultPolicy4D70701C",
+        "QueueHandlerServiceRole6E44FE08",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "8307263ee5d42d9b083e4b33aa2dfcf921272a8541f376f277b0ad99253a3d7e.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "QueueHandlerServiceRole6E44FE08",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "QueueHandlerServiceRole6E44FE08": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "QueueHandlerServiceRoleDefaultPolicy4D70701C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ProcessingQueue6DC600C3",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "states:SendTaskSuccess",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "TestsFBC4804A",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "QueueHandlerServiceRoleDefaultPolicy4D70701C",
+        "Roles": Array [
+          Object {
+            "Ref": "QueueHandlerServiceRole6E44FE08",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "QueueHandlerSqsEventSourcetestProcessingQueue55DBEDF02231DA2C": Object {
+      "Properties": Object {
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "ProcessingQueue6DC600C3",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "QueueHandler49A28051",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "TestsCfnResponseHandler9BD6A02F": Object {
+      "DependsOn": Array [
+        "TestsCfnResponseHandlerServiceRole54DBB3C3",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "29418ca2db0dada939217bb61582fe0b7e74ba1189f99d91d699e80de9409ba6.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "TestsCfnResponseHandlerServiceRole54DBB3C3",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "TestsCfnResponseHandlerServiceRole54DBB3C3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsFBC4804A": Object {
+      "DependsOn": Array [
+        "TestsRoleDefaultPolicy011546C5",
+        "TestsRole1AB047B6",
+      ],
+      "Properties": Object {
+        "DefinitionString": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"StartAt\\":\\"TestBasicEndToEnd\\",\\"States\\":{\\"TestBasicEndToEnd\\":{\\"Next\\":\\"SendCustomResourceResponse\\",\\"Catch\\":[{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"ResultPath\\":\\"$.taskresult\\",\\"Next\\":\\"SendCustomResourceResponse\\"}],\\"Type\\":\\"Task\\",\\"Comment\\":\\"Sends a test message to the SNS topic\\",\\"TimeoutSeconds\\":30,\\"ResultPath\\":null,\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::sns:publish.waitForTaskToken\\",\\"Parameters\\":{\\"TopicArn\\":\\"",
+              Object {
+                "Ref": "IntakeTopicB1C5B12C",
+              },
+              "\\",\\"Message\\":{\\"timestamp\\":\\"2021-08-14T20:36:52.004Z\\",\\"taskToken.$\\":\\"$$.Task.Token\\"}}},\\"SendCustomResourceResponse\\":{\\"End\\":true,\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Comment\\":\\"Sends a response to the Custom Resource letting it know the test passed\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              Object {
+                "Fn::GetAtt": Array [
+                  "TestsCfnResponseHandler9BD6A02F",
+                  "Arn",
+                ],
+              },
+              "\\",\\"Payload.$\\":\\"$\\"}}}}",
+            ],
+          ],
+        },
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
+            "TestsRole1AB047B6",
+            "Arn",
+          ],
+        },
+        "StateMachineType": "STANDARD",
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "TestsRole1AB047B6": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "states.",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ".amazonaws.com",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsRoleDefaultPolicy011546C5": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "IntakeTopicB1C5B12C",
+              },
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "TestsCfnResponseHandler9BD6A02F",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "TestsRoleDefaultPolicy011546C5",
+        "Roles": Array [
+          Object {
+            "Ref": "TestsRole1AB047B6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TestsStartTestsCustomResourceD227E88A": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "TestsFBC4804A",
+        "TestsRoleDefaultPolicy011546C5",
+        "TestsRole1AB047B6",
+      ],
+      "Properties": Object {
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "TestsStartTestsHandler63A36974",
+            "Arn",
+          ],
+        },
+        "timestamp": "2021-08-14T20:36:52.227Z",
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TestsStartTestsHandler63A36974": Object {
+      "DependsOn": Array [
+        "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B",
+        "TestsStartTestsHandlerServiceRole76274239",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "8833f6c5bf39630586bac52a60366cb6da73c0acf1707c9f5008d986a2a00c92.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "STATE_MACHINE_ARN": Object {
+              "Ref": "TestsFBC4804A",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "TestsStartTestsHandlerServiceRole76274239",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "TestsStartTestsHandlerServiceRole76274239": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "TestsFBC4804A",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B",
+        "Roles": Array [
+          Object {
+            "Ref": "TestsStartTestsHandlerServiceRole76274239",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
+
+exports[`mocking Code Snapshot 1`] = `
+Object {
+  "Resources": Object {
+    "IntakeTopicB1C5B12C": Object {
+      "Type": "AWS::SNS::Topic",
+    },
+    "ProcessingQueue6DC600C3": Object {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ProcessingQueuePolicyDDFFDBBA": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sqs:SendMessage",
+              "Condition": Object {
+                "ArnEquals": Object {
+                  "aws:SourceArn": Object {
+                    "Ref": "IntakeTopicB1C5B12C",
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "sns.amazonaws.com",
+              },
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ProcessingQueue6DC600C3",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": Array [
+          Object {
+            "Ref": "ProcessingQueue6DC600C3",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
+    },
+    "ProcessingQueuetestIntakeTopicA3B802C033FAABFC": Object {
+      "Properties": Object {
+        "Endpoint": Object {
+          "Fn::GetAtt": Array [
+            "ProcessingQueue6DC600C3",
+            "Arn",
+          ],
+        },
+        "Protocol": "sqs",
+        "TopicArn": Object {
+          "Ref": "IntakeTopicB1C5B12C",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "QueueHandler49A28051": Object {
+      "DependsOn": Array [
+        "QueueHandlerServiceRoleDefaultPolicy4D70701C",
+        "QueueHandlerServiceRole6E44FE08",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "my-bucket",
+          "S3Key": "my-key",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "QueueHandlerServiceRole6E44FE08",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "QueueHandlerServiceRole6E44FE08": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "QueueHandlerServiceRoleDefaultPolicy4D70701C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "ProcessingQueue6DC600C3",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "states:SendTaskSuccess",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "TestsFBC4804A",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "QueueHandlerServiceRoleDefaultPolicy4D70701C",
+        "Roles": Array [
+          Object {
+            "Ref": "QueueHandlerServiceRole6E44FE08",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "QueueHandlerSqsEventSourcetestProcessingQueue55DBEDF02231DA2C": Object {
+      "Properties": Object {
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "ProcessingQueue6DC600C3",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "QueueHandler49A28051",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "TestsCfnResponseHandler9BD6A02F": Object {
+      "DependsOn": Array [
+        "TestsCfnResponseHandlerServiceRole54DBB3C3",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "my-bucket",
+          "S3Key": "my-key",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "TestsCfnResponseHandlerServiceRole54DBB3C3",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "TestsCfnResponseHandlerServiceRole54DBB3C3": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsFBC4804A": Object {
+      "DependsOn": Array [
+        "TestsRoleDefaultPolicy011546C5",
+        "TestsRole1AB047B6",
+      ],
+      "Properties": Object {
+        "DefinitionString": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"StartAt\\":\\"TestBasicEndToEnd\\",\\"States\\":{\\"TestBasicEndToEnd\\":{\\"Next\\":\\"SendCustomResourceResponse\\",\\"Catch\\":[{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"ResultPath\\":\\"$.taskresult\\",\\"Next\\":\\"SendCustomResourceResponse\\"}],\\"Type\\":\\"Task\\",\\"Comment\\":\\"Sends a test message to the SNS topic\\",\\"TimeoutSeconds\\":30,\\"ResultPath\\":null,\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::sns:publish.waitForTaskToken\\",\\"Parameters\\":{\\"TopicArn\\":\\"",
+              Object {
+                "Ref": "IntakeTopicB1C5B12C",
+              },
+              "\\",\\"Message\\":{\\"timestamp\\":\\"2021-08-14T20:38:46.229Z\\",\\"taskToken.$\\":\\"$$.Task.Token\\"}}},\\"SendCustomResourceResponse\\":{\\"End\\":true,\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Comment\\":\\"Sends a response to the Custom Resource letting it know the test passed\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              Object {
+                "Fn::GetAtt": Array [
+                  "TestsCfnResponseHandler9BD6A02F",
+                  "Arn",
+                ],
+              },
+              "\\",\\"Payload.$\\":\\"$\\"}}}}",
+            ],
+          ],
+        },
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
+            "TestsRole1AB047B6",
+            "Arn",
+          ],
+        },
+        "StateMachineType": "STANDARD",
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "TestsRole1AB047B6": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "states.",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ".amazonaws.com",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsRoleDefaultPolicy011546C5": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "IntakeTopicB1C5B12C",
+              },
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "TestsCfnResponseHandler9BD6A02F",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "TestsRoleDefaultPolicy011546C5",
+        "Roles": Array [
+          Object {
+            "Ref": "TestsRole1AB047B6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TestsStartTestsCustomResourceD227E88A": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "TestsFBC4804A",
+        "TestsRoleDefaultPolicy011546C5",
+        "TestsRole1AB047B6",
+      ],
+      "Properties": Object {
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "TestsStartTestsHandler63A36974",
+            "Arn",
+          ],
+        },
+        "timestamp": "2021-08-14T20:38:46.240Z",
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "TestsStartTestsHandler63A36974": Object {
+      "DependsOn": Array [
+        "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B",
+        "TestsStartTestsHandlerServiceRole76274239",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": "my-bucket",
+          "S3Key": "my-key",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "STATE_MACHINE_ARN": Object {
+              "Ref": "TestsFBC4804A",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "TestsStartTestsHandlerServiceRole76274239",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "TestsStartTestsHandlerServiceRole76274239": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Ref": "TestsFBC4804A",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "TestsStartTestsHandlerServiceRoleDefaultPolicyCE63955B",
+        "Roles": Array [
+          Object {
+            "Ref": "TestsStartTestsHandlerServiceRole76274239",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
