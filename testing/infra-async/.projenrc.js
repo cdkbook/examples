@@ -4,6 +4,6 @@ const project = new AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   name: 'infra-async',
   deps: ['eslint', '@aws-sdk/client-sfn', '@aws-sdk/client-sqs'],
-  devDeps: ['@types/aws-lambda'],
+  devDeps: ['@types/aws-lambda', '@matthewbonig/cfn-response'],
 });
 project.synth();

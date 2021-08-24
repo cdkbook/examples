@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@matthewbonig/cfn-response",
+      "type": "build"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "build"
     },

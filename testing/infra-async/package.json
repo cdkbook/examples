@@ -22,6 +22,7 @@
     "start": "npx projen start"
   },
   "devDependencies": {
+    "@matthewbonig/cfn-response": "^0.1.2",
     "@types/aws-lambda": "^8.10.81",
     "@types/jest": "^26.0.24",
     "@types/node": "^10.17.0",
