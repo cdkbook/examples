@@ -23,6 +23,5 @@ export const handler = async (event: any, context: any) => {
 const createTimeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function runTests(url: string) {
-  await createTimeout(30 * 1000);
   return await axios.post(url, {}, { headers: { 'X-Test': '' } });
 }
