@@ -44,6 +44,8 @@
   "dependencies": {
     "@aws-cdk/assert": "^2.0.0-rc.10",
     "@aws-sdk/client-dynamodb": "^3.20.0",
+    "@matthewbonig/cfn-response": "^0.1.4",
+    "@types/aws-lambda": "^8.10.83",
     "aws-cdk-lib": "^2.0.0-rc.10",
     "axios": "^0.21.1",
     "constructs": "^10.0.5"

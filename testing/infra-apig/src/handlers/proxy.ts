@@ -2,7 +2,8 @@ import { runTest } from './runTest';
 
 function addTester(handler: Function) {
   return async (event: any, context: any) => {
-    if (event.httpMethod === 'POST' && event.headers['X-Test'] !== undefined) {
+    if (event.path === '/test/') {
+      console.log('Running API test');
       try {
         await runTest();
       } catch (err) {

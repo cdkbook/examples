@@ -1180,6 +1180,11 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@matthewbonig/cfn-response@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@matthewbonig/cfn-response/-/cfn-response-0.1.4.tgz#6086a4398bccd207ec44dbb78754f0343cfa6177"
+  integrity sha512-9u6W+7QMuSdnCV4nTgQElC1cNsedhlqZXxfXmGvrU4pHAY2P9uvB2MCp0UYZAH5ugx0kC6GnF9PCvmv34cwy5Q==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -1333,6 +1338,11 @@
   version "1.0.1"
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.1.tgz"
   integrity sha512-FTgBI767POY/lKNDNbIzgAX6miIDBs6NTCbdlDb8TrWovHsSvaVIZDlTqym29C6UqhzwcJx4CYr+AlrMywA0cA==
+
+"@types/aws-lambda@*":
+  version "8.10.83"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.83.tgz#66db06cedb7476e860e8655e4387fd2e4385433a"
+  integrity sha512-7YsLv/B8rF7K7jYAGmYBxLq3QU+hQV7qNJBMcSCmJCTcXuzoTKGBX8d4v9CsVs0SOKBSAErXG7rtk8jVxiP30g==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.14":
   version "7.1.14"
