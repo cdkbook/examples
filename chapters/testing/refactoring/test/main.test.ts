@@ -15,6 +15,6 @@ test('Snapshot', () => {
    */
 
   const app = new App();
-  const stack = new MyStack(app, 'test', { idMap: { ThingyBucket7D8CBF87: 'Bucket83908E77' } });
+  const stack = new MyStack(app, 'test', { /* idMap: { ThingyBucket7D8CBF87: 'Bucket83908E77' } */ });
   expect(Template.fromStack(stack)).toMatchSnapshot();
 });
