@@ -14,8 +14,7 @@ export class LogicalIdMapper implements IAspect {
     if (!!this.idMap[currentLogicalId]) {
       // if we're on a L1 resource, try to do the override directly
       if ((node as CfnResource).overrideLogicalId) return (node as CfnResource).overrideLogicalId(this.idMap[currentLogicalId]);
-      // if we're on an L2 resource, try going through the defaultChilds
-      if (node.node.defaultChild) return (node.node.defaultChild as CfnResource).overrideLogicalId(this.idMap[currentLogicalId]);
+
     }
   }
 }
