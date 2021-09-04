@@ -9,7 +9,15 @@ interface MyStackProps extends StackProps {
 export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: MyStackProps) {
     super(scope, id, props);
-    new SomeConstruct(this, 'Thingy');
+
+    // The first time you run the unit test, have this bucket created here:
+    new Bucket(this, 'Bucket', {});
+    // Then you refactor, by commenting this ^^ line of code out and restoring
+    // out the SomeConstruct:
+
+    // new SomeConstruct(this, 'Thingy');
+
+    // the SomeConstruct is the Bucket, refactored.
 
     // if an idMap was provided, add the aspect.
     if (props.idMap) {
@@ -18,10 +26,10 @@ export class MyStack extends Stack {
   }
 }
 
-class SomeConstruct extends Construct {
-  // @ts-ignore
+export class SomeConstruct extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+    // this is the code, copy and pasted from its original usage directly in the stack above
     new Bucket(this, 'Bucket', {});
   }
 }
@@ -34,6 +42,8 @@ const devEnv = {
 
 const app = new App();
 
+// When creating a new stack, you'll pass an idMap in (optionally) that will change new LogicalIds to old LogicalIds.
+// This keeps you from having to recreate any existing resources after refactoring your code.
 new MyStack(app, 'my-stack-dev', { env: devEnv, idMap: { ThingyBucket292460C0: 'Bucket83908E77' } });
 
 app.synth();
