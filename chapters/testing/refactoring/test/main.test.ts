@@ -1,6 +1,6 @@
 import { Template } from '@aws-cdk/assertions';
 import { App } from '@aws-cdk/core';
-import { MyStack } from '../src/main';
+import { OriginalStack } from '../src/OriginalStack';
 
 test('Snapshot', () => {
   /**
@@ -15,6 +15,7 @@ test('Snapshot', () => {
    */
 
   const app = new App();
-  const stack = new MyStack(app, 'test', { /* idMap: { ThingyBucket7D8CBF87: 'Bucket83908E77' } */ });
+  const stack = new OriginalStack(app, 'test', {});
+  // const stack = new RefactoredStack(app, 'test', { idMap: { ThingyBucket7D8CBF87: 'Bucket83908E77' }  });
   expect(Template.fromStack(stack)).toMatchSnapshot();
 });
