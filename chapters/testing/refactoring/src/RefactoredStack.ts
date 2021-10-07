@@ -1,14 +1,14 @@
 import { Aspects, Construct, Stack, StackProps } from '@aws-cdk/core';
 import { IdMap, LogicalIdMapper } from './LogicalIdMapper';
-import { SomeConstruct } from './main';
+import { SomeConstruct } from './SomeConstruct';
 
 
-interface MyStackProps extends StackProps {
+interface RefactoredStackProps extends StackProps {
   idMap?: IdMap;
 }
 
-export class OriginalStack extends Stack {
-  constructor(scope: Construct, id: string, props: MyStackProps) {
+export class RefactoredStack extends Stack {
+  constructor(scope: Construct, id: string, props: RefactoredStackProps) {
     super(scope, id, props);
 
     new SomeConstruct(this, 'Thingy');
